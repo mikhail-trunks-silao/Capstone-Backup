@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    
+    <!--Leaflet-->
+    <link rel="stylesheet" href="../leaflet/leaflet-css/leaflet.css">
+    <script src="../leaflet/leaflet-js/leaflet.js"></script>
+
+     <link rel="stylesheet" href="./leaflet/leaflet-css/leaflet-sidebar.css"></link>
+     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+     <!-- <link rel="stylesheet" href="./css/bootstrap.css"> -->
+</head>
+<body>
+
+    <div id="sidebar" class="leaflet-sidebar collapsed">
+
+        <!-- nav tabs -->
+        <div class="leaflet-sidebar-tabs">
+            <!-- top aligned tabs -->
+            <ul role="tablist">
+                <li><a href="#home" role="tab"><i class="fa fa-bars active"></i></a></li>
+            </ul>
+
+            <!-- bottom aligned tabs -->
+            <ul role="tablist">
+                <li><a href="/login"><i class="fa fa-gear"></i></a></li>
+            </ul>
+        </div>
+
+        <!-- panel content -->
+        <div class="leaflet-sidebar-content">
+            <div class="leaflet-sidebar-pane" id="home">
+                <h1 class="leaflet-sidebar-header">
+                    Public Jeepney Routes
+                    <span class="leaflet-sidebar-close"><i class="fa fa-caret-left"></i></span>
+                </h1>
+               <div id="buttonsContainer">
+               </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <div id="map"></div>
+
+
+
+
+
+    <script src="./leaflet/leaflet-js/leaflet.polylineDecorator.js"></script>
+    <script src="./leaflet/leaflet-js/leaflet-sidebar.js"></script>
+    <script src="index.js"></script>
+    <script src="./js/bootstrap.bundle.js"></script>
+</body>
+</html>
+

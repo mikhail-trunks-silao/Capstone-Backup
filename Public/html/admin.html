@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Admin Panel</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../css/bootstrap.css">
+        <link rel="stylesheet" href="../css/admin.css">
+        <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    </head>
+    <body>
+        <nav class="sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="../pictures/jeepney.svg" alt="jeepney">
+                </span>
+
+                <div class="text logo-text">
+                    <span class="name">Iloilo PUJ</span>
+                    <span class="name">Routes System</span>
+                    <span class="profession">Hello there <span id= username></span></span>
+                </div>
+            </div>
+
+            <i class='bx bx-chevron-right toggle'></i>
+        </header>
+
+        <div class="menu-bar">
+            <div class="menu">
+
+                <ul class="menu-links">
+                    <li class="nav-link">
+                        <a href="/admin">
+                            <i class='bx bx-home-alt icon' ></i>
+                            <span class="text nav-text">Routes</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="/admin/addroute">
+                            <i class='bx bx-bar-chart-alt-2 icon' ></i>
+                            <span class="text nav-text">Add Routes</span>
+                        </a>
+                    </li>
+
+                    <li class="nav-link">
+                        <a href="/admin/fare-matrix">
+                            <i class='bx bx-bell icon'></i>
+                            <span class="text nav-text">Fare Matrix</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="bottom-content">
+                <li class="">
+                    <a href="/login">
+                        <i class='bx bx-log-out icon' ></i>
+                        <span class="text nav-text">Logout</span>
+                    </a>
+                </li>
+                
+            </div>
+        </div>
+
+    </nav>
+
+    <section class="home">
+        <div id="routes-container">
+            <h2>Routes List</h2>
+        </div>
+    </section>
+        
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+        <script src="../js/admin.js"></script>
+        <script src="../js/bootstrap.bundle.js"></script>
+    </body>
+</html>

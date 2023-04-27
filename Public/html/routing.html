@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/routing.css">
+
+    <!--Leaflet-->
+    <link rel="stylesheet" href="../leaflet/leaflet-css/leaflet.css">
+    <script src="../leaflet/leaflet-js/leaflet.js"></script>
+
+    <link rel="stylesheet" href="./leaflet/leaflet-css/leaflet-sidebar.css">
+    </link>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+</head>
+
+<body>
+    <nav class="sidebar close">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="/pictures/jeepney.svg" alt="jeepney">
+                </span>
+
+                <div class="text logo-text">
+                    <span class="name">Iloilo PUJ</span>
+                    <span class="name">Routes System</span>
+                    <span class="profession">Hello there Silgram</span>
+                </div>
+            </div>
+
+            <i class='bx bx-chevron-right toggle' id="hamburger-menu"></i>
+        </header>
+
+        <div class="menu-bar">
+            <div class="menu">
+                <div class="coords">
+                    <div id="currentLocationDiv"></div>
+                    <div id="destinationDiv"></div>
+                    
+                </div>
+            </div>
+
+            <div class="bottom-content">
+                <li class="">
+                    <a href="/login">
+                        <i class='bx bx-log-out icon' ></i>
+                        <span class="text nav-text">Logout</span>
+                    </a>
+                </li>
+                
+            </div>
+        </div>
+
+    </nav>
+
+    <section class="home">
+        <div id="map"></div>
+    </section>
+
+
+    <script src="./leaflet/leaflet-js/leaflet.polylineDecorator.js"></script>
+    <script src="./leaflet/leaflet-js/leaflet-sidebar.js"></script>
+    <script type= "module" src="../js/routing.js"></script>
+    <script src="./js/bootstrap.bundle.js"></script>
+    <!-- <script type= "module" src="../js/testeralgo.js"></script> -->
+</body>
+
+</html>
