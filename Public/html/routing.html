@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="icon" type="image/png" href="../pictures/jeepney.svg">
+    <title>Plan Your Trip</title>
 </head>
 
 <body>
@@ -31,7 +33,7 @@
                 <div class="text logo-text">
                     <span class="name">Iloilo PUJ</span>
                     <span class="name">Routes System</span>
-                    <span class="profession">Hello there Silgram</span>
+                    <span class="profession">Hello there!</span>
                 </div>
             </div>
 
@@ -40,21 +42,40 @@
 
         <div class="menu-bar">
             <div class="menu">
-                <div class="coords">
-                    <div id="currentLocationDiv"></div>
-                    <div id="destinationDiv"></div>
-                    
+
+
+
+                <div class="containerforroutes">
+                    <!-- <button class="btn btn-primary custom-button">
+                          <div class="route-number">1</div>
+                          <div class="route-details">
+                            <div class="route-name">UNGKA-ILOILO CITY PROPER VIA CPU</div>
+                            <div class="fare-details">
+                                <div class="row" id="fare-title">
+                                    <div class="col">Trad. PUJ Fare</div>
+                                    <div class="col">Mod. PUJ Fare</div>
+                                </div>
+                              <div class="row fare">
+                                <div class="col"><span>Reg: </span>P12.00</div>
+                                <div class="col"><span>Reg: </span>P14.00</div>
+                              </div>
+                              <div class="row fare">
+                                <div class="col"><span>Disc: </span>P10.00</div>
+                                <div class="col"><span>Disc: </span>P11.00</div>
+                              </div>
+                            </div>
+                          </div>
+                        </button> -->
+
+
                 </div>
             </div>
 
             <div class="bottom-content">
                 <li class="">
-                    <a href="/login">
-                        <i class='bx bx-log-out icon' ></i>
-                        <span class="text nav-text">Logout</span>
-                    </a>
+
                 </li>
-                
+
             </div>
         </div>
 
@@ -62,14 +83,21 @@
 
     <section class="home">
         <div id="map"></div>
+
+        <div class="loading-overlay">
+            <div class="loading-spinner"></div>
+          </div>
+          
+
     </section>
 
 
     <script src="./leaflet/leaflet-js/leaflet.polylineDecorator.js"></script>
     <script src="./leaflet/leaflet-js/leaflet-sidebar.js"></script>
-    <script type= "module" src="../js/routing.js"></script>
+    <script type="module" src="../js/routing.js"></script>
     <script src="./js/bootstrap.bundle.js"></script>
-    <!-- <script type= "module" src="../js/testeralgo.js"></script> -->
+    <script type="module" src="../js/testeralgo.js"></script>
+    <!-- <script type= "module" src="../algo/findShortestPath.js"></script> -->
 </body>
 
 </html>

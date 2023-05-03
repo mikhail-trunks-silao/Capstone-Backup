@@ -176,7 +176,8 @@ var CustomControl = L.Control.extend({
                   
                       const jsonResponse = await response.json();
                       console.log('Server response:', jsonResponse);
-                   
+                      alert('Route successfully added!');
+                        window.location.href = '/admin/addroute';
                     } catch (error) {
                       console.error('Error sending data to server:', error.message);
                     }

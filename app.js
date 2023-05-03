@@ -263,6 +263,8 @@ app.get('/api/routing-waypoints', async (req, res) => {
 });
 
 
+// 
+
 //Webpages
 app.get('/login', (req, res) => {
     const adminPath = path.join(__dirname, 'public/html', 'login.html');

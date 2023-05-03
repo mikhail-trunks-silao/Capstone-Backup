@@ -1,11 +1,21 @@
-var map = L.map('map').setView([10.712637, 122.551853], 14);
-var googleMapTile = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}',{maxZoom: 20,subdomains:['mt0','mt1','mt2','mt3']});
+const body = document.querySelector('body'),
+    sidebar = body.querySelector('nav'),
+    toggle = body.querySelector(".toggle"),
+
+    modeText = body.querySelector(".mode-text");
+
+
+toggle.addEventListener("click", () => {
+    sidebar.classList.toggle("close");
+})
+
+
+var map = L.map('map', { zoomControl: false }).setView([10.712637, 122.551853], 14);
+var googleMapTile = L.tileLayer('http://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', { maxZoom: 20, subdomains: ['mt0', 'mt1', 'mt2', 'mt3'] });
 googleMapTile.addTo(map);
 
-var sidebar = L.control.sidebar({ container: 'sidebar' })
-.addTo(map)
-.open('home');
-
+var zoomControl = L.control.zoom({ position: 'topright' });
+zoomControl.addTo(map);
 
 async function fetchRoutes() {
     const response = await fetch('http://localhost:5000/api/routes');
@@ -19,11 +29,21 @@ const routeDecorators = {};
 function createRouteButton(routes) {
     const button = document.createElement('button');
     button.innerText = routes.route_number +": "+ routes.route_name;
-    button.classList.add('btn', 'btn-primary', 'mx-2', 'my-2');
-    button.style.backgroundColor = routes.route_color;
+    button.classList.add( 'mx-2', 'my-2', 'custom-button');
     button.style.borderColor = routes.route_color;
+    button.style.backgroundColor = '#e0e0e0';
 
     let clickCounter = 0;
+
+
+    button.addEventListener('mouseover', function() {
+      button.style.backgroundColor = routes.route_color; // Change background color on hover
+    });
+    
+    // Add event listener for mouseout (hover off) event
+    button.addEventListener('mouseout', function() {
+      button.style.backgroundColor = '#e0e0e0'; // Reset background color on hover off
+    });
 
     button.addEventListener('click', async () => {
         clickCounter++;
@@ -61,6 +81,7 @@ function createRouteButton(routes) {
               }).bindPopup(data[0].route_name);
         
               map.addLayer(decorator);
+              map.fitBounds(polyline.getBounds());
         
               // Store the polyline and decorator in the corresponding objects
               routePolylines[routeId] = polyline;
@@ -155,7 +176,7 @@ function createRouteButton(routes) {
 
 async function generateRoutesButtons() {
     const routes = await fetchRoutes();
-    const buttonsContainer = document.getElementById('buttonsContainer');
+    const buttonsContainer = document.getElementById('routesContainer');
     routes.forEach(route => {
       const button = createRouteButton(route);
       buttonsContainer.appendChild(button);
@@ -164,44 +185,35 @@ async function generateRoutesButtons() {
 
 generateRoutesButtons();
 
+var CustomControl = L.Control.extend({
+  options: {
+      position: 'bottomright'
+  },
+
+  onAdd: function (map) {
+      var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
+      container.style.backgroundColor = 'white';
+      container.style.width = 'auto';
+      container.style.height = 'auto';
+      container.classList.add('routingButton');
+
+      var button = L.DomUtil.create('button', 'btn btn-primary', container,'routingButton');
+      button.innerHTML = 'Plan Your Trip';
+      button.style.cursor = 'pointer';
+      button.classList.add('routingButton');
+      
+
+      
+      L.DomEvent.on(button, 'click', function () {
+
+        window.location.href = `/routing`;
+      });
+
+      return container;
+  }
+});
+
+map.addControl(new CustomControl());
 
 
-// add panels dynamically to the sidebar
-// sidebar
-// .addPanel({
-//     id:   'js-api',
-//     tab:  '<i class="fa fa-gear"></i>',
-//     title: 'JS API',
-//     pane: '<p>The Javascript API allows to dynamically create or modify the panel state.<p/><p><button onclick="sidebar.enablePanel(\'mail\')">enable mails panel</button><button onclick="sidebar.disablePanel(\'mail\')">disable mails panel</button></p><p><button onclick="addUser()">add user</button></b>',
-// })
-
-// // add a tab with a click callback, initially disabled
-// .addPanel({
-//     id:   'mail',
-//     tab:  '<i class="fa fa-envelope"></i>',
-//     title: 'Messages',
-//     button: function() { alert('opened via JS callback') },
-//     disabled: true,
-// })
-
-// // be notified when a panel is opened
-// sidebar.on('content', function (ev) {
-// switch (ev.id) {
-//     case 'autopan':
-//     sidebar.options.autopan = true;
-//     break;
-//     default:
-//     sidebar.options.autopan = false;
-// }
-// });
-
-// var userid = 0
-// function addUser() {
-// sidebar.addPanel({
-//     id:   'user' + userid++,
-//     tab:  '<i class="fa fa-user"></i>',
-//     title: 'User Profile ' + userid,
-//     pane: '<p>user ipsum dolor sit amet</p>',
-// });
-// }
 

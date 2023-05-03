@@ -1,3 +1,5 @@
+// import {jeepneyRoutes} from '../waypoints.js'
+
 class PriorityQueue {
   constructor() {
     this.elements = [];
@@ -36,23 +38,6 @@ function distance(lat1, lon1, lat2, lon2) {
   return R * c;
 }
 
-// Helper function to find the nearest start point within 30 meters of user's location
-function findNearestStartPoint(jeepneyRoutes, userLocation) {
-  let nearestPoint = null;
-  let minDistance = Infinity;
-
-  for (const route of Object.values(jeepneyRoutes)) {
-    for (const point of route) {
-      const d = distance(userLocation[0], userLocation[1], point[0], point[1]);
-      if (d <= 50 && d < minDistance) {
-        nearestPoint = point;
-        minDistance = d;
-      }
-    }
-  }
-
-  return nearestPoint;
-}
 
 // Helper function to find the nearest end point within 30 meters of user's destination
 function findNearestEndPoint(jeepneyRoutes, userDestination) {
@@ -94,48 +79,6 @@ export function preprocessRoutes(jeepneyRoutes, maxDistance = 30) {
       }
 
       newRoute.push(curr);
-    }
-
-    newJeepneyRoutes[routeName] = newRoute;
-  }
-
-  return newJeepneyRoutes;
-}
-
-function precomputeDistances(jeepneyRoutes) {
-  const distances = new Map();
-
-  for (const route of Object.values(jeepneyRoutes)) {
-    for (const coord1 of route) {
-      for (const coord2 of route) {
-        if (coord1 !== coord2) {
-          const key = `${coord1},${coord2}`;
-          if (!distances.has(key)) {
-            const dist = distance(coord1[0], coord1[1], coord2[0], coord2[1]);
-            distances.set(key, dist);
-          }
-        }
-      }
-    }
-  }
-
-  return distances;
-}
-
-function simplifyRoutes(jeepneyRoutes, minDistance = 5) {
-  const newJeepneyRoutes = {};
-
-  for (const [routeName, route] of Object.entries(jeepneyRoutes)) {
-    const newRoute = [route[0]];
-
-    for (let i = 1; i < route.length; i++) {
-      const prev = newRoute[newRoute.length - 1];
-      const curr = route[i];
-      const dist = distance(prev[0], prev[1], curr[0], curr[1]);
-
-      if (dist >= minDistance) {
-        newRoute.push(curr);
-      }
     }
 
     newJeepneyRoutes[routeName] = newRoute;
@@ -358,8 +301,8 @@ function  findShortestPathForStartingPoint(jeepneyRoutes, currentLocation, start
 // const currentLocation = [10.69968991571916, 122.58765171951806];
 // const destination = [10.701819254504704, 122.56895215843554];
 
-// const currentLocation = [10.725000105165213, 122.55766553477783];
-// const destination = [10.761731727135045, 122.57753158581632];
+const currentLocation = [10.725000105165213, 122.55766553477783];
+const destination = [10.761731727135045, 122.57753158581632];
 
     
 // Find the shortest path with pre processed waypoints
@@ -370,7 +313,7 @@ function  findShortestPathForStartingPoint(jeepneyRoutes, currentLocation, start
 // const output = findShortestPath(jeepneyRoutes, currentLocation, destination);
 
 // //Shortest path without preprocessed waypoints
-// const output = findShortestPath(jeepneyRoutes, currentLocation, destination);
+
 // const output = findShortestPath(preprocessedJeepneyRoutes, currentLocation, destination);
 // console.log(output);
 

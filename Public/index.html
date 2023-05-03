@@ -9,50 +9,63 @@
     <link rel="stylesheet" href="../leaflet/leaflet-css/leaflet.css">
     <script src="../leaflet/leaflet-js/leaflet.js"></script>
 
-     <link rel="stylesheet" href="./leaflet/leaflet-css/leaflet-sidebar.css"></link>
-     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
+     <title>Iloilo PUJ Routes</title>
+     <link rel="icon" type="image/png" href="../pictures/jeepney.svg">
 
      <!-- <link rel="stylesheet" href="./css/bootstrap.css"> -->
 </head>
 <body>
 
-    <div id="sidebar" class="leaflet-sidebar collapsed">
+    <nav class="sidebar">
+        <header>
+            <div class="image-text">
+                <span class="image">
+                    <img src="/pictures/jeepney.svg" alt="jeepney">
+                </span>
 
-        <!-- nav tabs -->
-        <div class="leaflet-sidebar-tabs">
-            <!-- top aligned tabs -->
-            <ul role="tablist">
-                <li><a href="#home" role="tab"><i class="fa fa-bars active"></i></a></li>
-            </ul>
+                <div class="text logo-text">
+                    <span class="name">Iloilo PUJ</span>
+                    <span class="name">Routes System</span>
+                </div>
+            </div>
 
-            <!-- bottom aligned tabs -->
-            <ul role="tablist">
-                <li><a href="/login"><i class="fa fa-gear"></i></a></li>
-            </ul>
-        </div>
+            <i class='bx bx-chevron-right toggle' id="hamburger-menu"></i>
+        </header>
 
-        <!-- panel content -->
-        <div class="leaflet-sidebar-content">
-            <div class="leaflet-sidebar-pane" id="home">
-                <h1 class="leaflet-sidebar-header">
-                    Public Jeepney Routes
-                    <span class="leaflet-sidebar-close"><i class="fa fa-caret-left"></i></span>
-                </h1>
-               <div id="buttonsContainer">
-               </div>
+        <div class="menu-bar">
+            <div class="menu">
+                <ul class="menu-links" id="routesContainer">
+              
+                </ul>
+            </div>
+
+            <div class="bottom-content">
+                <li class="">
+                    <a href="/login">
+                        <i class='bx bx-log-in icon' ></i>
+                        <span class="text nav-text">Login</span>
+                    </a>
+                </li>
                 
             </div>
         </div>
-    </div>
 
-    <div id="map"></div>
+    </nav>
+
+    <section class="home">
+        <div id="map"></div>
+    </section>
+
+
+
+
 
 
 
 
 
     <script src="./leaflet/leaflet-js/leaflet.polylineDecorator.js"></script>
-    <script src="./leaflet/leaflet-js/leaflet-sidebar.js"></script>
     <script src="index.js"></script>
     <script src="./js/bootstrap.bundle.js"></script>
 </body>

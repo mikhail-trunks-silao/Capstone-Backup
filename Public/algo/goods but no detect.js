@@ -130,10 +130,10 @@ function findNearbyRouteNodes(coords, routes, distanceThreshold) {
   return nearbyNodes;
 }
 
-export function findBestRoute(routes, origin, destination, transferDistance, distanceThreshold) {
+function findBestRoute(routes, origin, destination, transferDistance) {
   const graph = buildGraph(routes, transferDistance);
-  const nearbyOriginNodes = findNearbyRouteNodes(origin, routes, distanceThreshold);
-  const nearbyDestinationNodes = findNearbyRouteNodes(destination, routes, distanceThreshold);
+  const nearbyOriginNodes = findNearbyRouteNodes(origin, routes, transferDistance);
+  const nearbyDestinationNodes = findNearbyRouteNodes(destination, routes, transferDistance);
 
   let bestPath = null;
   let bestDistance = Infinity;
@@ -184,10 +184,17 @@ export function findBestRoute(routes, origin, destination, transferDistance, dis
 
 
 
-
 // Usage
 
+const origin = [  10.714977752364106,
+    122.56698829688662];
+  const destination = [   10.691509903888004,
+    122.58253628863855];
 
-// const origin = [10.714977752364106, 122.56698829688662];
-// const destination = [10.691509903888004, 122.58253628863855];
 import { jeepneyRoutes } from "../waypoints.js";
+// const origin = [10.69958746288853, 122.58773786228141];
+// const destination = [10.701404678553345, 122.57870215479971];
+const transferDistance = 20;
+
+const bestRoute = findBestRoute(jeepneyRoutes, origin, destination, transferDistance);
+console.log(bestRoute);

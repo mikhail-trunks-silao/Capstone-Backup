@@ -61,7 +61,7 @@ body.dark{
   top: 0;
   left: 0;
   height: 100%;
-  width: 250px;
+  width: 300px;
   padding: 10px 14px;
   background: var(--sidebar-color);
   transition: var(--tran-05);
@@ -299,9 +299,9 @@ body.dark .switch::before{
   position: absolute;
   top: 0;
   top: 0;
-  left: 250px;
+  left: 300px;
   height: 100vh;
-  width: calc(100% - 250px);
+  width: calc(100% - 300px);
   background-color: var(--body-color);
   transition: var(--tran-05);
 }
@@ -345,5 +345,109 @@ ol, ul {
 
 .bottom-content {
 padding-bottom: 20px;
+}
+
+
+.btn.custom-button {
+  padding: 0;
+  margin: 0;
+  display: flex; /* Add display: flex; */
+  width: 100%; /* Add width: 100%; */
+  color: black;
+}
+
+.custom-button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  background-color: gray;
+}
+
+.route-number {
+  width: 50px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+  font-size: 1.25rem;
+}
+
+.route-details {
+  width: calc(100% - 50px);
+  padding: 0.25rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.route-name {
+  font-size: .8rem;
+  height: 60%;
+}
+
+.fare-details {
+  display: flex;
+  flex-direction: column;
+  height: 40%;
+  font-size: 0.75rem;
+}
+
+
+#fare-title{
+  font-size: 11px;
+  font-weight: bold;
+  margin-bottom: 0.2rem;
+  border-top: 1px solid #dee2e6;
+  margin-top: 0.2rem;
+}
+
+.fare{
+  font-size: 12px;
+}
+
+span{
+  font-size: 12px;
+}
+
+
+.btn.custom-button {
+  background-color: #fafafa;
+  border-width: 5px ;
+  margin-top: .5rem;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  z-index: 9999;
+}
+
+.loading-spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(0, 0, 0, 0.1);
+  border-left-color: #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+  0% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
 }
 
