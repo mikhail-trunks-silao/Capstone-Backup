@@ -109,26 +109,9 @@ map.on('draw:deleted', function (e) {
 });
 
 
-
-var CustomControl = L.Control.extend({
-    options: {
-        position: 'bottomright'
-    },
-
-    onAdd: function (map) {
-        var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control leaflet-control-custom');
-        container.style.backgroundColor = 'white';
-        container.style.width = 'auto';
-        container.style.height = 'auto';
-
-        var button = L.DomUtil.create('button', 'btn btn-primary', container);
-        button.innerHTML = 'Update Route';
-        button.style.cursor = 'pointer';
-
-
-        L.DomEvent.on(button, 'click', function () {
-
-            var layer = editableLayers.getLayers();
+const saveRouteButton = document.getElementById('saveRoute');
+saveRouteButton.addEventListener('click', async ()=> {
+    var layer = editableLayers.getLayers();
 
             const object_latlang = layer[0].editing.latlngs[0];
 
@@ -174,11 +157,5 @@ var CustomControl = L.Control.extend({
 
                 sendDataToServer();
             });
-        });
-
-        return container;
-    }
+    
 });
-
-map.addControl(new CustomControl());
-

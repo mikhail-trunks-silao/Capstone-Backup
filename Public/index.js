@@ -217,3 +217,26 @@ map.addControl(new CustomControl());
 
 
 
+// Function to handle successful location retrieval
+function onLocationFound(e) {
+  var radius = e.accuracy / 2;
+
+  // Add a marker at the user's location
+  L.marker(e.latlng).addTo(map)
+    .bindPopup("You are within " + radius + " meters from this point").openPopup();
+
+  // Add a circle around the user's location to indicate accuracy
+  L.circle(e.latlng, radius).addTo(map);
+}
+
+// Function to handle errors while retrieving location
+function onLocationError(e) {
+  alert(e.message);
+}
+
+// Get the user's location
+map.locate({ setView: true, maxZoom: 16 });
+
+// Attach event listeners for location found and location error events
+map.on('locationfound', onLocationFound);
+map.on('locationerror', onLocationError);
