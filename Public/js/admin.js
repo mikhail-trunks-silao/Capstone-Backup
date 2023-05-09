@@ -29,7 +29,7 @@ async function getUsername() {
 
 
 async function fetchRoutes() {
-    const response = await fetch('http://localhost:5000/api/routes');
+    const response = await fetch('/api/routes');
     const routes = await response.json();
     return routes;
 }

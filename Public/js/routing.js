@@ -12,7 +12,7 @@ toggle.addEventListener("click", () => {
 })
 
 const overlay = document.querySelector('.loading-overlay');
-
+const totalFareContainer = document.querySelector('.total-fare-container');
 
 
 var map = L.map('map', { zoomControl: false }).setView([10.712637, 122.551853], 14);
@@ -23,8 +23,8 @@ var zoomControl = L.control.zoom({ position: 'topright' });
 zoomControl.addTo(map);
 
 const currentLocationIcon = L.icon({
-  iconUrl: '../pictures/marker-icon-blue.png',
-  iconRetinaUrl: '../pictures/marker-icon-blue-2x.png',
+  iconUrl: '../pictures/marker-icon-yellow.png',
+  iconRetinaUrl: '../pictures/marker-icon-yellow-2x.png',
   shadowUrl: '../pictures/marker-shadow.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
@@ -35,6 +35,16 @@ const currentLocationIcon = L.icon({
 const destinationIcon = L.icon({
   iconUrl: '../pictures/marker-icon-red.png',
   iconRetinaUrl: '../pictures/marker-icon-red-2x.png',
+  shadowUrl: '../pictures/marker-shadow.png',
+  iconSize: [25, 41],
+  iconAnchor: [12, 41],
+  popupAnchor: [1, -34],
+  shadowSize: [41, 41],
+});
+
+const userLocationAPIicon = L.icon({
+  iconUrl: '../pictures/marker-icon-blue.png',
+  iconRetinaUrl: '../pictures/marker-icon-blue-2x.png',
   shadowUrl: '../pictures/marker-shadow.png',
   iconSize: [25, 41],
   iconAnchor: [12, 41],
@@ -73,13 +83,14 @@ function initMap() {
 // Call the initMap function to initialize the map
 initMap();
 
-
+let total_traditional_fare = 0;
+let total_modernized_fare = 0;
 
 
 
 var CustomControl = L.Control.extend({
   options: {
-    position: 'bottomright'
+    position: 'topright'
   },
 
   onAdd: function (map) {
@@ -152,6 +163,7 @@ var CustomControl = L.Control.extend({
             let modernized_1st4km;
             let modernized_succeeding;
 
+      
 
             if (response.ok) {
               const data = await response.json();
@@ -207,6 +219,10 @@ var CustomControl = L.Control.extend({
 
               const modernizedPUJFare = (modernized_1st4km + (distanceMinusFour)*(modernized_succeeding)).toFixed(2);
               const discountedModernizedPUJFare = (modernizedPUJFare * 0.8).toFixed(2);
+
+              total_traditional_fare += parseFloat(traditionalPUJFare);
+              total_modernized_fare += parseFloat(modernizedPUJFare);
+
 
               //Create a button for the polyline and to display the infor
               const button = document.createElement('button');
@@ -297,7 +313,26 @@ var CustomControl = L.Control.extend({
               }
             }
 
+            const trad_reg = document.getElementById('trad_reg');
+            const mod_reg = document.getElementById('mod_reg');
+            const trad_disc = document.getElementById('trad_disc');
+            const mod_disc = document.getElementById('mod_disc');
+  
+            console.log(total_traditional_fare);
+            console.log(total_modernized_fare)
+  
+            trad_reg.textContent = total_traditional_fare;
+            mod_reg.textContent = total_modernized_fare;
+            trad_disc.textContent = (total_traditional_fare*.8).toFixed(2);
+            mod_disc.textContent = (total_modernized_fare*.8).toFixed(2);
 
+            const farecontainer = document.getElementById('containerforfare')
+            function showDiv() {
+              farecontainer.style.display = 'block';
+            }
+
+
+            showDiv();
     
           }
           processResults();
@@ -305,6 +340,7 @@ var CustomControl = L.Control.extend({
 
 
 
+         
 
 
 
@@ -354,4 +390,44 @@ function calculateDistance(latlngs) {
 function toRadians(degrees) {
   return degrees * (Math.PI / 180);
 }
+
+function onLocationFound(e) {
+  
+
+  // Add a marker at the user's location
+  L.marker(e.latlng).addTo(map)
+  
+
+  
+
+  // Add a circle around the user's location to indicate accuracy
+
+}
+
+// Function to handle errors while retrieving location
+function onLocationError(e) {
+  alert(e.message);
+}
+
+// Get the user's location
+map.locate({ setView: true, maxZoom: 30 });
+
+// Attach event listeners for location found and location error events
+map.on('locationfound', onLocationFound);
+map.on('locationerror', onLocationError);
+
+//Remove scroll control for media withl little screen
+function checkScreenSize() {
+  if (window.innerWidth < 768) { // Adjust the breakpoint as needed
+    map.removeControl(zoomControl);
+  } else {
+    map.addControl(zoomControl);
+  }
+}
+
+// Call the function initially
+checkScreenSize();
+
+// Listen for window resize event and call the function
+window.addEventListener('resize', checkScreenSize);
 

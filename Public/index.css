@@ -377,7 +377,23 @@ padding-bottom: 20px;
 }
 
 .leaflet-control-custom{
-  height: 30px;
+  height: 50px;
   background-color: lightblue;
   border-radius: 30px;
+  width: 100px;
+}
+
+
+.routingButton{
+  height: 100%;
+}
+
+@media (max-width: 575.98px) {
+  .custom-button {
+    font-size: 0.875rem; /* Set the desired font size for small screens using Bootstrap's font size for small screens */
+  }
+}
+
+.sidebar .menu .custom-button .close {
+  font-size: 0.875rem; /* Set the desired font size for small screens using Bootstrap's font size for small screens */
 }
