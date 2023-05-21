@@ -12,6 +12,8 @@
     <link href='https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="icon" type="image/png" href="../pictures/jeepney.svg">
+    <link rel="stylesheet" href="../leaflet/leaflet.css">
+    <script src="../leaflet/leaflet.js"></script>
 
 
 </head>
@@ -30,7 +32,7 @@
                 </div>
             </div>
 
-            <i class='bx bx-chevron-right toggle'></i>
+            <i class='bx bx-chevron-right toggle' id="hamburger-menu"></i>
         </header>
 
         <div class="menu-bar">
@@ -57,26 +59,27 @@
                             <span class="text nav-text">Fare Matrix</span>
                         </a>
                     </li>
+
+                    <li class="">
+                        <a href="/login">
+                            <i class='bx bx-log-out icon'></i>
+                            <span class="text nav-text">Logout</span>
+                        </a>
+                    </li>
                 </ul>
             </div>
 
             <div class="bottom-content">
-                <li class="">
-                    <a href="/login">
-                        <i class='bx bx-log-out icon'></i>
-                        <span class="text nav-text">Logout</span>
-                    </a>
-                </li>
-
+                <div id="routes-container">
+                    <h2>Routes List</h2>
+                </div>
             </div>
         </div>
 
     </nav>
 
     <section class="home">
-        <div id="routes-container">
-            <h2>Routes List</h2>
-        </div>
+        <div id="map"></div>
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
@@ -84,6 +87,7 @@
         crossorigin="anonymous"></script>
     <script src="../js/admin.js"></script>
     <script src="../js/bootstrap.bundle.js"></script>
+    <script src="./leaflet/leaflet-js/leaflet.polylineDecorator.js"></script>
 </body>
 
 </html>

@@ -7,6 +7,11 @@ const body = document.querySelector('body'),
 
 toggle.addEventListener("click", () => {
     sidebar.classList.toggle("close");
+    let menuButtons = document.querySelectorAll('.custom-button');
+    menuButtons.forEach((btn) => {
+        btn.classList.toggle('small-text');
+    });
+    
 })
 
 const userLocationAPIicon = L.icon({
@@ -45,14 +50,9 @@ function createRouteButton(routes) {
     let clickCounter = 0;
 
 
-    button.addEventListener('mouseover', function() {
-      button.style.backgroundColor = routes.route_color; // Change background color on hover
-    });
     
     // Add event listener for mouseout (hover off) event
-    button.addEventListener('mouseout', function() {
-      button.style.backgroundColor = '#e0e0e0'; // Reset background color on hover off
-    });
+    
 
     button.addEventListener('click', async () => {
         clickCounter++;
@@ -103,6 +103,7 @@ function createRouteButton(routes) {
           } else if (clickCounter === 2) {
             // Double-click event
             const routeId = routes.route_id;
+            const route_color = routes.route_color;
             const polyline = routePolylines[routeId];
             button.style.backgroundColor = route_color;
     
@@ -234,30 +235,30 @@ map.addControl(new CustomControl());
 
 
 //Function to handle successful location retrieval
-// function onLocationFound(e) {
+function onLocationFound(e) {
   
 
-//   // Add a marker at the user's location
-//   L.marker(e.latlng).addTo(map)
+  // Add a marker at the user's location
+  L.marker(e.latlng).addTo(map)
   
 
   
 
-//   // Add a circle around the user's location to indicate accuracy
 
-// }
 
-// // Function to handle errors while retrieving location
-// function onLocationError(e) {
-//   alert(e.message);
-// }
+}
 
-// // Get the user's location
-// map.locate({ setView: false, maxZoom: 30 });
+// Function to handle errors while retrieving location
+function onLocationError(e) {
+  alert(e.message);
+}
 
-// // Attach event listeners for location found and location error events
-// map.on('locationfound', onLocationFound);
-// map.on('locationerror', onLocationError);
+// Get the user's location
+map.locate({ setView: true, maxZoom: 16 });
+
+// Attach event listeners for location found and location error events
+map.on('locationfound', onLocationFound);
+map.on('locationerror', onLocationError);
 
 //Remove scroll control for media withl little screen
 function checkScreenSize() {
@@ -273,3 +274,4 @@ checkScreenSize();
 
 // Listen for window resize event and call the function
 window.addEventListener('resize', checkScreenSize);
+

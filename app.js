@@ -7,10 +7,19 @@ const cors = require('cors');
 const session = require('express-session');
 const crypto = require('crypto');
 const { stringify } = require('querystring');
+const https = require('https');
+const fs = require('fs');
 
 app.use(bodyParser.json());
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+const privateKey = fs.readFileSync('server-key.pem', 'utf8');
+const certificate = fs.readFileSync('server-cert.pem', 'utf8');
+
+const credentials = { key: privateKey, cert: certificate };
+
+const httpsServer = https.createServer(credentials, app);
 
 app.use(express.static('./public'));
 
@@ -267,6 +276,7 @@ app.get('/api/routing-waypoints', async (req, res) => {
 
 //Webpages
 app.get('/login', (req, res) => {
+    req.session.destroy();
     const adminPath = path.join(__dirname, 'public/html', 'login.html');
     res.sendFile(adminPath);
 })
@@ -284,7 +294,7 @@ app.post('/login', (req, res) => {
       }
   
       if (results.length === 0) {
-        res.status(401).send('Invalid username or password');
+        res.sendFile(path.join(__dirname, 'public/html', 'log-in-wrong-details.html'));
         return;
       }
   
@@ -296,7 +306,7 @@ app.post('/login', (req, res) => {
         req.session.user = { username: user.username }; // Save the user object to the session
         res.redirect('/admin');
       } else {
-        res.status(401).send('Invalid username or password');
+        res.sendFile(path.join(__dirname, 'public/html', 'log-in-wrong-details.html'));
       }
     });
   });
@@ -349,6 +359,46 @@ app.get('/routing', (req, res) => {
 });
 
 
-app.listen(5000,  '0.0.0.0',()=>{
+// app.listen(5000,  '0.0.0.0',()=>{
+//     console.log('Server is listening on port 5000...')
+// })
+
+
+httpsServer.listen(5000,  '0.0.0.0',()=>{
     console.log('Server is listening on port 5000...')
 })
+
+
+
+// export async function buildAndSaveGraph(routes, transferDistance) {
+//   const graph = {};
+//   const transferPenalty = 1000; // 5km penalty in meters
+
+//   // ... Rest of your buildGraph code here ...
+
+  
+
+//   try {
+//     for (const node in graph) {
+//       for (const neighbor in graph[node]) {
+//         const travelTime = graph[node][neighbor];
+//         const [query, parameters] = buildInsertQuery('graph', { node, neighbor, travelTime });
+//         await con.execute(query, parameters);
+//       }
+//     }
+//   } finally {
+//     await con.end();
+//   }
+// }
+
+// function buildInsertQuery(table, data) {
+//   const keys = Object.keys(data);
+//   const values = Object.values(data);
+
+//   const query = `
+//     INSERT INTO graph (${keys.join(', ')})
+//     VALUES (${keys.map(() => '?').join(', ')})
+//   `;
+
+//   return [query, values];
+// }

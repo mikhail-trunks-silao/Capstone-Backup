@@ -16,7 +16,7 @@ function distance(pointA, pointB) {
 
 function buildGraph(routes, transferDistance) {
   const graph = {};
-  const transferPenalty = 1000; // 5km penalty in meters
+  const transferPenalty = 5000; // 5km penalty in meters
 
   for (const routeId in routes) {
     const route = routes[routeId];
@@ -141,21 +141,18 @@ export function findBestRoute(routes, origin, destination, transferDistance, dis
   for (const originNode of nearbyOriginNodes) {
     for (const destinationNode of nearbyDestinationNodes) {
       const path = dijkstra(graph, originNode, destinationNode);
-      if (path) { // Check if path is not null before proceeding
-        const pathDistance = path.reduce((acc, node) => {
-          const [routeId, waypointIdx] = node.split('_');
-          const waypoint = routes[routeId][parseInt(waypointIdx)];
-          return acc + distance(waypoint, origin);
-        }, 0);
-  
-        if (pathDistance < bestDistance) {
-          bestPath = path;
-          bestDistance = pathDistance;
-        }
+      const pathDistance = path.reduce((acc, node) => {
+        const [routeId, waypointIdx] = node.split('_');
+        const waypoint = routes[routeId][parseInt(waypointIdx)];
+        return acc + distance(waypoint, origin);
+      }, 0);
+
+      if (pathDistance < bestDistance) {
+        bestPath = path;
+        bestDistance = pathDistance;
       }
     }
   }
-  
 
   if (!bestPath) {
     throw new Error('No path found');

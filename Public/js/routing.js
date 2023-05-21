@@ -1,4 +1,5 @@
 import { findBestRoute } from "./testeralgo.js";
+import { findShortestPath } from "../algo/findShortestPath.js";
 
 const body = document.querySelector('body'),
   sidebar = body.querySelector('nav'),
@@ -9,7 +10,16 @@ const body = document.querySelector('body'),
 
 toggle.addEventListener("click", () => {
   sidebar.classList.toggle("close");
+  
+  let menuButtons = document.querySelectorAll('.custom-button');
+    menuButtons.forEach((btn) => {
+        btn.classList.toggle('overflow');
+    });
 })
+
+//For the text in the map
+const map_text = document.getElementById('map-text');
+map_text.innerHTML = "Click on the map to set your origin";
 
 const overlay = document.querySelector('.loading-overlay');
 const totalFareContainer = document.querySelector('.total-fare-container');
@@ -67,14 +77,16 @@ function initMap() {
       originMarker = L.marker(event.latlng, { draggable: true, icon: currentLocationIcon }).addTo(map);
       originMarker.bindPopup('Origin').openPopup();
 
-      //D
+      //Chnage the text on the map
+      map_text.innerHTML = "Click on the map to set your destination";
 
     } else if (!destinationMarker) {
       // Create the destination marker
       destinationMarker = L.marker(event.latlng, { draggable: true, icon: destinationIcon }).addTo(map);
       destinationMarker.bindPopup('Destination').openPopup();
 
-      //Displaying the coords of dragable marker
+      //Change the text on the map
+      map_text.innerHTML = "";
 
     }
   });
@@ -127,9 +139,11 @@ var CustomControl = L.Control.extend({
 
 
           //Getting the shortest path from the algorithm
-          const transferDistance = 20;
-          const distanceThreshold = 30;
+          const transferDistance = 50;
+          const distanceThreshold = 100;
           const bestRoute = findBestRoute(data, currentLocation, destination, transferDistance, distanceThreshold);
+          // const bestRoute = findShortestPath(data, currentLocation, destination,  distanceThreshold);
+          console.log(bestRoute);
 
           //Open the sidebar
           sidebar.classList.toggle("close");
@@ -190,7 +204,7 @@ var CustomControl = L.Control.extend({
 
               const latlang = routeWaypoints.waypoints;
               console.log(latlang);
-              const polyline = L.polyline(latlang, { color: route_color, weight: 3 }).bindPopup(route_name);
+              const polyline = L.polyline(latlang, { color: "Black", weight: 3 }).bindPopup(route_name);
         
               polyline.addTo(map);
 
@@ -202,7 +216,7 @@ var CustomControl = L.Control.extend({
                     
                     offset: 30,
                     repeat: 150,
-                    symbol: L.Symbol.arrowHead({ fill: true, fillColor:route_color ,fillOpacity: 1 ,pixelSize: 10, polygon: true, pathOptions: { stroke: true, color: route_color, weight: 2 } }),
+                    symbol: L.Symbol.arrowHead({ fill: true, fillColor:"Black" ,fillOpacity: 1 ,pixelSize: 10, polygon: true, pathOptions: { stroke: true, color: route_color, weight: 2 } }),
                   },
                 ],
               }).bindPopup(route_name);
@@ -329,6 +343,7 @@ var CustomControl = L.Control.extend({
             const farecontainer = document.getElementById('containerforfare')
             function showDiv() {
               farecontainer.style.display = 'block';
+              refresh_button.style.display = 'block';
             }
 
 
@@ -410,7 +425,7 @@ function onLocationError(e) {
 }
 
 // Get the user's location
-map.locate({ setView: true, maxZoom: 30 });
+map.locate({ setView: true, maxZoom: 16 });
 
 // Attach event listeners for location found and location error events
 map.on('locationfound', onLocationFound);
@@ -431,3 +446,181 @@ checkScreenSize();
 // Listen for window resize event and call the function
 window.addEventListener('resize', checkScreenSize);
 
+const refresh_button = document.getElementById('btn-refresh');
+refresh_button.addEventListener('click', () => {
+  location.reload();
+});
+
+
+
+
+// async function fetchRoutes() {
+//   const response = await fetch('api/routes');
+//   const routes = await response.json();
+//   return routes;
+// }
+
+// const routePolylines = {};
+// const routeDecorators = {};
+
+// function createRouteButton(routes) {
+//   const button = document.createElement('button');
+//   button.innerText = routes.route_number +": "+ routes.route_name;
+//   button.classList.add( 'mx-2', 'my-2', 'custom-button', "btn");
+//   button.style.borderColor = routes.route_color;
+//   button.style.backgroundColor = '#e0e0e0';
+
+//   let clickCounter = 0;
+
+
+  
+//   // Add event listener for mouseout (hover off) event
+  
+
+//   button.addEventListener('click', async () => {
+//       clickCounter++;
+  
+//       setTimeout(async () => {
+//         if (clickCounter === 1) {
+//           // Single-click event
+//           const routeId = routes.route_id;
+//           // If the polyline exists on the map, remove it
+//           if (routePolylines[routeId]) {
+//             map.removeLayer(routePolylines[routeId]);
+//             map.removeLayer(routeDecorators[routeId]);
+//             routePolylines[routeId] = null;
+//             routeDecorators[routeId] = null;
+//             button.style.backgroundColor = '#e0e0e0';
+//           } else {
+//             // Fetch the data and add the polyline to the map
+//             const response = await fetch(`/api/route/${routeId}`);
+//             const data = await response.json();
+//             const latlang = data[0].waypoints;
+//             const route_color = data[0].route_color;
+//             const polyline = L.polyline(latlang, { color: route_color, weight: 3 }).bindPopup(data[0].route_name);
+      
+//             map.addLayer(polyline);
+      
+//             // Add an arrow decorator to the polyline
+//             const decorator = L.polylineDecorator(polyline, {
+//               patterns: [
+//                 {
+                  
+//                   offset: '5%',
+//                   repeat: 150,
+//                   symbol: L.Symbol.arrowHead({ fill: true, fillColor:route_color ,fillOpacity: 1 ,pixelSize: 10, polygon: true, pathOptions: { stroke: true, color: route_color, weight: 2 } }),
+//                 },
+//               ],
+//             }).bindPopup(data[0].route_name);
+      
+//             map.addLayer(decorator);
+//             map.fitBounds(polyline.getBounds());
+//             button.style.backgroundColor = route_color;
+      
+//             // Store the polyline and decorator in the corresponding objects
+//             routePolylines[routeId] = polyline;
+//             routeDecorators[routeId] = decorator;
+//           }
+  
+  
+//         } else if (clickCounter === 2) {
+//           // Double-click event
+//           const routeId = routes.route_id;
+//           const route_color = routes.route_color;
+//           const polyline = routePolylines[routeId];
+//           button.style.backgroundColor = route_color;
+  
+//           if (polyline) {
+//               map.fitBounds(polyline.getBounds());
+//               button.style.backgroundColor = route_color;
+//           } else {
+//               const response = await fetch(`/api/route/${routeId}`);
+//             const data = await response.json();
+//             const latlang = data[0].waypoints;
+//             const route_color = data[0].route_color;
+//             const polyline = L.polyline(latlang, { color: route_color, weight: 3 }).bindPopup(data[0].route_name);
+      
+//             map.addLayer(polyline);
+      
+//             // Add an arrow decorator to the polyline
+//             const decorator = L.polylineDecorator(polyline, {
+//               patterns: [
+//                 {
+                  
+//                   offset: 0,
+//                   repeat: 150,
+//                   symbol: L.Symbol.arrowHead({ fill: true, fillColor:route_color ,fillOpacity: 1 ,pixelSize: 10, polygon: true, pathOptions: { stroke: true, color: route_color, weight: 2 } }),
+//                 },
+//               ],
+//             }).bindPopup(data[0].route_name);
+      
+//             map.addLayer(decorator);
+            
+      
+//             // Store the polyline and decorator in the corresponding objects
+//             routePolylines[routeId] = polyline;
+//             routeDecorators[routeId] = decorator;
+
+
+//             button.style.backgroundColor = route_color;
+//           }
+//         }
+  
+//         clickCounter = 0;
+//       }, 250);
+//     });
+
+// //     button.addEventListener('click', async () => {
+// //     clickCounter ++;
+
+// //     const routeId = routes.route_id;
+// //     // If the polyline exists on the map, remove it
+// //     if (routePolylines[routeId]) {
+// //       map.removeLayer(routePolylines[routeId]);
+// //       map.removeLayer(routeDecorators[routeId]);
+// //       routePolylines[routeId] = null;
+// //       routeDecorators[routeId] = null;
+// //     } else {
+// //       // Fetch the data and add the polyline to the map
+// //       const response = await fetch(`http://localhost:5000/api/route/${routeId}`);
+// //       const data = await response.json();
+// //       const latlang = data[0].waypoints;
+// //       const route_color = data[0].route_color;
+// //       const polyline = L.polyline(latlang, { color: route_color, weight: 3 }).bindPopup(data[0].route_name);
+
+// //       map.addLayer(polyline);
+
+// //       // Add an arrow decorator to the polyline
+// //       const decorator = L.polylineDecorator(polyline, {
+// //         patterns: [
+// //           {
+          
+// //             offset: '5%',
+// //             repeat: 150,
+// //             symbol: L.Symbol.arrowHead({ fill: true, fillColor:route_color ,fillOpacity: 1 ,pixelSize: 10, polygon: true, pathOptions: { stroke: true, color: route_color, weight: 2 } }),
+// //           },
+// //         ],
+// //       }).bindPopup(data[0].route_name);
+
+// //       map.addLayer(decorator);
+
+// //       // Store the polyline and decorator in the corresponding objects
+// //       routePolylines[routeId] = polyline;
+// //       routeDecorators[routeId] = decorator;
+// //     }
+// //   });
+
+// return button;
+// }
+
+
+// async function generateRoutesButtons() {
+//   const routes = await fetchRoutes();
+//   const buttonsContainer = document.getElementById('routesContainer');
+//   routes.forEach(route => {
+//     const button = createRouteButton(route);
+//     buttonsContainer.appendChild(button);
+//   });
+// }
+
+// generateRoutesButtons();
